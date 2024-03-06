@@ -30,9 +30,12 @@ INSTALLED_APPS = [
     "django_filters",
     "corsheaders",
     'djoser',
+    "phonenumber_field",
     # Apps
     "api",
     "common",
+    "users",
+    "presets",
     # After apps
     "drf_spectacular",
 ]
@@ -150,18 +153,27 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "Presets Star",
     "DESCRIPTION": "Presets Star",
     "VERSION": "1.0.0",
-
-    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAuthenticated"],
-    "SERVE_AUTHENTICATION": [
+    "SERVE_PERMISSIONS": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "SERVE_AUTHENTICATION": [
         "rest_framework.authentication.BasicAuthentication",
     ],
     "SWAGGER_UI_SETTINGS": {
         "deepLinking": True,
         "displayOperationId": True,
+        "syntaxHighlight.active": True,
+        "syntaxHighlight.theme": "arta",
+        "defaultModelsExpandDepth": -1,
+        "displayRequestDuration": True,
+        "filter": True,
+        "requestSnippetsEnabled": True,
     },
     "COMPONENT_SPLIT_REQUEST": True,
     "SORT_OPERATIONS": False,
+    "ENABLE_DJANGO_DEPLOY_CHECK": False,
+    "DISABLE_ERRORS_AND_WARNINGS": True,
 }
 # endregion -------------------------------------------------------------------------
 
