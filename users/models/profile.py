@@ -2,17 +2,18 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from phonenumber_field.modelfields import PhoneNumberField
 
+from presets.models.presets import Preset
+
 
 User = get_user_model()
 
 
 class Profile(models.Model):
-    genders = ("male", "female", "helicopter")
 
     date_birth = models.DateField(blank=True, null=True)
 
     user_id = models.OneToOneField(User, on_delete=models.CASCADE)
-    favourites = models.ManyToManyField("Preset", blank=True)
+    favourites = models.ManyToManyField(Preset, blank=True)
 
     buys = models.IntegerField(blank=True, null=True)
     sold = models.IntegerField(blank=True, null=True)
@@ -26,7 +27,9 @@ class Profile(models.Model):
 
     email = models.EmailField()
 
-    gender = models.Choices(genders)
+    gender = models.CharField(
+        max_length=1, choices=(("M", "male"), ("F", "female")), blank=True, null=True
+    )
 
     phone = PhoneNumberField(max_length=20)
 
