@@ -3,20 +3,17 @@ from datetime import timedelta
 import environ
 import os
 
-root = environ.Path(__file__) - 2
-env = environ.Env()
-environ.Env.read_env(env.str(root(), ".env"))
+
+env = environ.Env(DEBUG=(bool, False))
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
-BASE_DIR = root()
-
-
-SECRET_KEY = env.str("SECRET_KEY")
-
-DEBUG = env.bool("DEBUG", default=False)
-
-ALLOWED_HOSTS = env.str("ALLOWED_HOSTS", default="").split(" ")
-
+SECRET_KEY = env("SECRET_KEY")
+DEBUG = env("DEBUG", default=False)
+ALLOWED_HOSTS = env("ALLOWED_HOSTS", default="").split(" ")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -77,9 +74,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": env.str("PG_DATABASE", "postgres"),
-        "USER": env.str("PG_USER", "postgres"),
-        "PASSWORD": env.str("PG_PASSWORD", "postgres"),
+        "NAME": env.str("PG_DATABASE", "preset_star"),
+        "USER": env.str("PG_USER", "kamilayupov"),
+        "PASSWORD": env.str("PG_PASSWORD", ""),
         "HOST": env.str("DB_HOST", "localhost"),
         "PORT": env.int("DB_PORT", 5432),
     },
@@ -155,7 +152,6 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Presets Star",
     "VERSION": "1.0.0",
     "SERVE_PERMISSIONS": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.permissions.IsAuthenticated",
     ],
     "SERVE_AUTHENTICATION": [
