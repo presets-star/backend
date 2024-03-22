@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from phonenumber_field.modelfields import PhoneNumberField
 
-from presets.models.presets import Preset
-
 
 User = get_user_model()
 
@@ -13,7 +11,7 @@ class Profile(models.Model):
     date_birth = models.DateField(blank=True, null=True)
 
     user_id = models.OneToOneField(User, on_delete=models.CASCADE)
-    favourites = models.ManyToManyField(Preset, blank=True)
+    favourites = models.ManyToManyField('presets.Preset', blank=True)
 
     buys = models.IntegerField(blank=True, null=True)
     sold = models.IntegerField(blank=True, null=True)
