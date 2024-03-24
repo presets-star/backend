@@ -6,6 +6,7 @@ from rest_framework.request import Request
 from ..models.carts import Cart, CartItem
 from presets.models.presets import Preset
 
+
 class CartService:
     """Сервисная часть для Корзины."""
 

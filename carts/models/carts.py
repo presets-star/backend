@@ -2,8 +2,9 @@ from django.db import models
 
 from common.models.base import BaseModel
 
+
 class Cart(BaseModel):
-  """
+    """
     Модель Корзины.
 
     Аттрибуты:
@@ -13,28 +14,31 @@ class Cart(BaseModel):
         * `cart_items` (CartPreset: обратное обращение с внешнего ключа cart
                                 содержимого корзины.
     """
-    
-     # region ------------------------- АТРИБУТЫ КОРЗИНЫ -----------------------------
-  user = models.ForeignKey(
-        to='users.User',
+
+    # region ------------------------- АТРИБУТЫ КОРЗИНЫ -----------------------------
+    user = models.ForeignKey(
+        to="users.User",
         on_delete=models.CASCADE,
-        related_name='cart',
-        verbose_name='Пользователи',
+        related_name="cart",
+        verbose_name="Users",
         null=True,
         blank=True,
     )
-  products = models.ManyToManyField(
-        to='presets.preset',
-        related_name='cart_products',
-        verbose_name='Товары в корзине',
+    products = models.ManyToManyField(
+        to="presets.preset",
+        related_name="cart_products",
+        verbose_name="Products in cart",
         blank=True,
-        through='CartItem',
+        through="CartItem",
     )
+
     # endregion ---------------------------------------------------------------------
-  # objects = CartManager()
-  class Meta:
-        verbose_name = 'Корзина'
-        verbose_name_plural = 'Корзины'
+    # objects = CartManager()
+    class Meta:
+        verbose_name = "Cart"
+        verbose_name_plural = "Carts"
+
+
 class CartPreset(BaseModel):
     """
     Модель Содержимого Корзины.
@@ -48,27 +52,26 @@ class CartPreset(BaseModel):
 
     # region --------------------- АТРИБУТЫ СОДЕРЖИМОГО КОРЗИНЫ ---------------------
     cart = models.ForeignKey(
-        to='carts.Cart',
+        to="carts.Cart",
         on_delete=models.CASCADE,
-        related_name='products_info',
-        verbose_name='Пользователь',
+        related_name="products_info",
+        verbose_name="User",
         null=True,
         blank=True,
     )
     preset = models.ForeignKey(
-        to='preset.Preset',
+        to="preset.Preset",
         on_delete=models.CASCADE,
-        related_name='carts_info',
-        verbose_name='Товар',
+        related_name="carts_info",
+        verbose_name="Preset",
         null=True,
         blank=True,
     )
     quantity = models.PositiveSmallIntegerField(
-        verbose_name='Количество товара',
-        default=1
+        verbose_name="Presets quantity", default=1
     )
     total_price_product = models.DecimalField(
-        verbose_name='Общая цена одного товара',
+        verbose_name="General preset price",
         max_digits=10,
         decimal_places=2,
         null=True,
@@ -77,9 +80,10 @@ class CartPreset(BaseModel):
     # endregion ---------------------------------------------------------------------
 
     class Meta:
-      verbose_name = 'Содержимое корзины'
-      verbose_name_plural = 'Содержимое корзин'
-      # Товар не должен повторяться в корзине
-      unique_together = ('cart', 'product')
+        verbose_name = "Cart content"
+        verbose_name_plural = "Carts content"
+        # Товар не должен повторяться в корзине
+        # unique_together = ("cart", "product")
+
     def __str__(self) -> str:
-      return f'{self.product.name}({self.quantity})'
+        return f"{self.product.name}({self.quantity})"
