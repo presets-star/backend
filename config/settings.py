@@ -31,10 +31,10 @@ INSTALLED_APPS = [
     # Apps
     "api",
     "common",
-    "presets",
     "users",
+    "presets",
     "carts",
-    # After apps
+    # After
     "drf_spectacular",
 ]
 
@@ -86,6 +86,8 @@ DATABASES = {
     },
 }
 # endregion -------------------------------------------------------------------------
+
+AUTH_USER_MODEL = "users.User"
 
 # region --------------------- DJANGO REST FRAMEWORK --------------------------------
 REST_FRAMEWORK = {
