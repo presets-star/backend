@@ -1,8 +1,4 @@
 from django.db import models
-from django.contrib.auth import get_user_model
-
-
-User = get_user_model()
 
 
 class Preset(models.Model):
@@ -17,10 +13,10 @@ class Preset(models.Model):
     software = models.CharField(
         max_length=50, choices=(("FL", "FrutieLoops"), ("AB", "Ableton"))
     )
-    seller_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    seller_id = models.ForeignKey('users.User', on_delete=models.CASCADE)
     rating = models.PositiveIntegerField(default=0)
     price = models.PositiveIntegerField(default=0)
-    co_authors = models.ManyToManyField(User, related_name='co_authors')
+    co_authors = models.ManyToManyField('users.User', related_name='co_authors')
     created_at = models.DateTimeField(auto_now_add=True)
     category_id = models.ForeignKey("Category", on_delete=models.CASCADE)
     reviews = models.ManyToManyField("Review")
@@ -38,7 +34,7 @@ class Category(models.Model):
 class Review(models.Model):
 
     text = models.TextField()
-    author_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey('users.User', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     rate = models.CharField(
         max_length=1,
@@ -50,4 +46,4 @@ class Cover(models.Model):
 
     file_path = models.FilePathField(
         default="defualt file path"
-    )  # Add default file path
+    )  # TODO: Add default file path
