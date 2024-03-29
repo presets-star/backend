@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     "common",
     "users",
     "presets",
-    "carts",
+    # "carts",
     # After
     "drf_spectacular",
 ]
