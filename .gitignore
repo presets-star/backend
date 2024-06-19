@@ -5,4 +5,4 @@ instance/
 .vscode/
 *.sqlite
 *.sqlite3
-.DS_Store" > .gitignore
+.DS_Store" > .gitignoregit add .
