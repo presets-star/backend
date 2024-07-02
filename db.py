@@ -38,7 +38,8 @@ def create_db_podcasts():
     tags_podcast TEXT NOT NULL,
     rate_podcast INTEGER NOT NULL,
     avatar_podcast BLOB,
-    podcast_file BLOB
+    demo_podcast_file BLOB,
+    preset_file BLOB
     );"""
 
     cursor.execute(sql_query)

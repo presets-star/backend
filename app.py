@@ -154,7 +154,8 @@ def podcasts_crud():
                      avatar_podcast=base64.b64encode(row['avatar_podcast']).decode('utf-8') if row['avatar_podcast'] else None,
                      price_podcast=row['price_podcast'], duration_podcast=row['duration_podcast'],
                      programm_os_podcast=row['programm_os_podcast'], tags_podcast=row['tags_podcast'],
-                     rate_podcast=row['rate_podcast'], podcast_file=base64.b64encode(row['podcast_file']).decode('utf-8') if row['podcast_file'] else None)
+                     rate_podcast=row['rate_podcast'], demo_podcast_file=base64.b64encode(row['demo_podcast_file']).decode('utf-8') if row['demo_podcast_file'] else None,
+                     preset_file=base64.b64encode(row['preset_file']).decode('utf-8') if row['preset_file'] else None)
                 for row in cursor.fetchall()
             ]
             return jsonify(podcasts)
@@ -169,18 +170,19 @@ def podcasts_crud():
             name_coauth_podcast = request.form["name_coauth_podcast"]
             date_podcast = date_str
             avatar_podcast = request.files["avatar_podcast"].read() if "avatar_podcast" in request.files else None
-            podcast_file = request.files["podcast_file"].read() if "podcast_file" in request.files else None
+            demo_podcast_file = request.files["demo_podcast_file"].read() if "demo_podcast_file" in request.files else None
+            preset_file = request.files["preset_file"].read() if "preset_file" in request.files else None
             price_podcast = request.form["price_podcast"]
             duration_podcast = request.form["duration_podcast"]
             programm_os_podcast = request.form["programm_os_podcast"]
             tags_podcast = request.form["tags_podcast"]
             rate_podcast = request.form["rate_podcast"]
 
-            sql = """INSERT INTO podcasts (name_podcast, name_auth_podcast, name_coauth_podcast, date_podcast, price_podcast, duration_podcast, programm_os_podcast, tags_podcast, rate_podcast, avatar_podcast, podcast_file)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
+            sql = """INSERT INTO podcasts (name_podcast, name_auth_podcast, name_coauth_podcast, date_podcast, price_podcast, duration_podcast, programm_os_podcast, tags_podcast, rate_podcast, avatar_podcast, demo_podcast_file, preset_file)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
             cursor.execute(sql, (name_podcast, name_auth_podcast, name_coauth_podcast, date_podcast,
                                  price_podcast, duration_podcast, programm_os_podcast, tags_podcast,
-                                 rate_podcast, avatar_podcast, podcast_file))
+                                 rate_podcast, avatar_podcast, demo_podcast_file, preset_file))
             conn.commit()
             return f"Подкаст с айди {cursor.lastrowid} успешно добавлен", 201
         except Exception as e:
@@ -211,7 +213,9 @@ def single_podcast(id):
                     "tags_podcast": row['tags_podcast'],
                     "rate_podcast": row['rate_podcast'],
                     "avatar_podcast": base64.b64encode(row['avatar_podcast']).decode('utf-8') if row['avatar_podcast'] else None,
-                    "podcast_file": base64.b64encode(row['podcast_file']).decode('utf-8') if row['podcast_file'] else None
+                    "demo_podcast_file": base64.b64encode(row['demo_podcast_file']).decode('utf-8') if row['demo_podcast_file'] else None,
+                    "preset_file": base64.b64encode(row['preset_file']).decode('utf-8') if row[
+                        'preset_file'] else None
                 }
                 return jsonify(podcast), 200
             else:
@@ -232,14 +236,15 @@ def single_podcast(id):
             tags_podcast = request.form["tags_podcast"]
             rate_podcast = request.form["rate_podcast"]
             avatar_podcast = request.files["avatar_podcast"].read() if "avatar_podcast" in request.files else None
-            podcast_file = request.files["podcast_file"].read() if "podcast_file" in request.files else None
+            demo_podcast_file = request.files["demo_podcast_file"].read() if "demo_podcast_file" in request.files else None,
+            preset_file = request.files["preset_file"].read() if "preset_file" in request.files else None
 
             sql = """UPDATE podcasts 
-                     SET name_podcast=?, name_auth_podcast=?, name_coauth_podcast=?, date_podcast=?, price_podcast=?, duration_podcast=?, programm_os_podcast=?, tags_podcast=?, rate_podcast=?, avatar_podcast=?, podcast_file=?
+                     SET name_podcast=?, name_auth_podcast=?, name_coauth_podcast=?, date_podcast=?, price_podcast=?, duration_podcast=?, programm_os_podcast=?, tags_podcast=?, rate_podcast=?, avatar_podcast=?, demo_podcast_file=?, preset_file=?
                      WHERE id=?"""
             cursor.execute(sql, (name_podcast, name_auth_podcast, name_coauth_podcast, date_podcast,
                                  price_podcast, duration_podcast, programm_os_podcast, tags_podcast,
-                                 rate_podcast, avatar_podcast, podcast_file, id))
+                                 rate_podcast, avatar_podcast, demo_podcast_file, preset_file, id))
             conn.commit()
             update_podcast = {
                 "id": id,
@@ -253,7 +258,8 @@ def single_podcast(id):
                 "tags_podcast": tags_podcast,
                 "rate_podcast": rate_podcast,
                 "avatar_podcast": base64.b64encode(avatar_podcast).decode('utf-8') if avatar_podcast else None,
-                "podcast_file": base64.b64encode(podcast_file).decode('utf-8') if podcast_file else None,
+                "demo_podcast_file": base64.b64encode(demo_podcast_file).decode('utf-8') if demo_podcast_file else None,
+                "preset_file": base64.b64encode(preset_file).decode('utf-8') if preset_file else None,
             }
             return jsonify(update_podcast), 200
         except Exception as e:
@@ -272,4 +278,3 @@ def single_podcast(id):
 
 if __name__ == "__main__":
     app.run(debug=True)
-
