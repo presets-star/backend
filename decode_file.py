@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-
+# Подготовка раскодирования
 def get_unique_filename(directory, base_filename, extension):
     counter = 1
     while True:
@@ -34,15 +34,41 @@ def save_file_to_directory(file_data, directory, base_filename, extension):
         print(f"Ошибка при сохранении файла: {e}")
 
 
+
+# Ракодировка аудио файлов
 def for_mp3():
     mp3_data = retrieve_file_from_database('demo_podcast_file', 6)
     save_file_to_directory(mp3_data, 'decoded_files', 'decoded_audio', 'mp3')
 
 
-def for_preset():
+def for_mp3():
+    mp3_data = retrieve_file_from_database('demo_podcast_file', 6)
+    save_file_to_directory(mp3_data, 'decoded_files', 'decoded_audio', 'wav')
+
+
+# Раскодировка пресетов
+def for_preset_fl_studio():
     preset_data = retrieve_file_from_database('preset_file', 6)
     save_file_to_directory(preset_data, 'decoded_files', 'decoded_preset', 'fst')
 
+def for_preset_logic_pro():
+    preset_data = retrieve_file_from_database('preset_file', 6)
+    save_file_to_directory(preset_data, 'decoded_files', 'decoded_preset', 'cst')
+
+def for_preset_studio_one():
+    preset_data = retrieve_file_from_database('preset_file', 6)
+    save_file_to_directory(preset_data, 'decoded_files', 'decoded_preset', 'preset')
+
+def for_preset_pro_tools():
+    preset_data = retrieve_file_from_database('preset_file', 6)
+    save_file_to_directory(preset_data, 'decoded_files', 'decoded_preset', 'tfx')
+
+def for_preset_ableton_live():
+    preset_data = retrieve_file_from_database('preset_file', 6)
+    save_file_to_directory(preset_data, 'decoded_files', 'decoded_preset', 'adv')
+
+def for_preset_reaper():
+    preset_data = retrieve_file_from_database('preset_file', 6)
+    save_file_to_directory(preset_data, 'decoded_files', 'decoded_preset', 'rfxchain')
 
 for_mp3()
-for_preset()
