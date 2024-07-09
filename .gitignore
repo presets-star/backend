@@ -5,4 +5,6 @@ instance/
 .vscode/
 *.sqlite
 *.sqlite3
-.DS_Store" > .gitignoregit add .
+.DS_Store
+*.mp3
+*.wav" > .gitignore
